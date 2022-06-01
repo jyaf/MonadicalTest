@@ -1,0 +1,48 @@
+version: '3.4'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+      args:
+        - PYTHONPATH=/app:$PYTHONPATH
+        - SQLITE_PATH=games.db
+    container_name: side_stacker_backend
+    environment:
+      - PYTHONPATH=/app:$PYTHONPATH
+      - PYTHONUNBUFFERED=0
+      - ENV
+      - SQLITE_PATH=games.db
+    volumes:
+      - ./backend:/app
+    ports:
+      - 8080:8080
+    networks:
+      side_stacker_network:
+        aliases:
+          - side-stacker-network
+    command: python3 src/side_stacker/sanic_app.py
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    container_name: side_stacker_frontend
+    environment:
+      - ENV
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules # node_modules binaries differ for user machine and a docker machine; explicitly mask node_modules
+    ports:
+      - 3000:3000
+    # command: python3 src/side_stacker/sanic_app.py
+
+networks:
+  side_stacker_network:
+    driver: "bridge"
+
+volumes:
+  side-stacker-data:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs

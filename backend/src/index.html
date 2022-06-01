@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Side Stacker</title>
+    <link href="static/css/side-stacker.css" rel="stylesheet">
+  </head>
+  <body>
+
+  </body>
+  <script>
+      function redirectToGame() {
+          const gameKeyInput = document.getElementById("game-key").value;
+          const username = document.getElementById("username").value;
+          window.location = `/play/${gameKeyInput}/${username}`;
+          return false;
+      }
+  </script>
+</html>

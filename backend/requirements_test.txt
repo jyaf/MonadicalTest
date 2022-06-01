@@ -1,0 +1,5 @@
+pytest
+ipdb
+sanic-testing
+pytest-asyncio
+peewee
